@@ -4,6 +4,7 @@ export class FindAllAvailableUseCase {
   async execute() {
     const deliveries = await prisma.delivery.findMany({
       where: {
+        deliveryman_id: null,
         end_at: null
       }
     })
