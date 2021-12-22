@@ -3,7 +3,11 @@ import { verify } from 'jsonwebtoken'
 
 import { env } from '../config/env'
 
-export async function ensureAuthenticateClient(req: Request, res: Response, next: NextFunction) {
+export async function ensureAuthenticateDeliveryman(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   const authHeader = req.headers.authorization
 
   if (!authHeader) {
@@ -13,8 +17,8 @@ export async function ensureAuthenticateClient(req: Request, res: Response, next
   const [, token] = authHeader.split(' ')
 
   try {
-    const { sub } = verify(token, env.JWT_SECRET_CLIENT) as { sub: string }
-    request.client_id = sub
+    const { sub } = verify(token, env.JWT_SECRET_DELIVERYMAN) as { sub: string }
+    request.deliveryman_id = sub
 
     return next()
   } catch (err) {

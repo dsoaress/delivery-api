@@ -1,6 +1,7 @@
 import { compare } from 'bcrypt'
 import { sign } from 'jsonwebtoken'
 
+import { env } from '../../../config/env'
 import { prisma } from '../../../database/prismaClient'
 
 interface AuthenticateDeliveryman {
@@ -24,13 +25,7 @@ export class AuthenticateDeliverymanUseCase {
       throw new Error('Username or password is incorrect')
     }
 
-    const { JWT_SECRET } = process.env
-
-    if (!JWT_SECRET) {
-      throw new Error('JWT_SECRET is not defined')
-    }
-
-    const token = sign({ sub: deliveryman.id }, JWT_SECRET, {
+    const token = sign({ sub: deliveryman.id }, env.JWT_SECRET_DELIVERYMAN, {
       expiresIn: '1d'
     })
 

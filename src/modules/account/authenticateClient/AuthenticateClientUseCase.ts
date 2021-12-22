@@ -1,6 +1,7 @@
 import { compare } from 'bcrypt'
 import { sign } from 'jsonwebtoken'
 
+import { env } from '../../../config/env'
 import { prisma } from '../../../database/prismaClient'
 
 interface AuthenticateClient {
@@ -24,13 +25,7 @@ export class AuthenticateClientUseCase {
       throw new Error('Username or password is incorrect')
     }
 
-    const { JWT_SECRET } = process.env
-
-    if (!JWT_SECRET) {
-      throw new Error('JWT_SECRET is not defined')
-    }
-
-    const token = sign({ sub: client.id }, JWT_SECRET, {
+    const token = sign({ sub: client.id }, env.JWT_SECRET_CLIENT, {
       expiresIn: '1d'
     })
 
