@@ -11,6 +11,7 @@ import { ensureAuthenticateDeliveryman } from './middlewares/ensureAuthenticateD
 import { UpdateDeliverymanController } from './modules/deliveries/updateDeliveryman/UpdateDeliverymanController'
 import { FindAllDeliveriesController } from './modules/clients/findAllDeliveries/FindAllDeliveriesController'
 import { FindAllDeliveriesByDeliverymanController } from './modules/deliverymen/findAllDeliveriesByDeliveryman/FindAllDeliveriesByDeliverymanController'
+import { UpdateEndAtController } from './modules/deliveries/updateEndAt/UpdateEndAtController'
 
 const routes = Router()
 const createClientController = new CreateClientController()
@@ -24,6 +25,7 @@ const findAllAvailableController = new FindAllAvailableController()
 const findAllDeliveriesByDeliverymanController = new FindAllDeliveriesByDeliverymanController()
 const createDeliveryController = new CreateDeliveryController()
 const updateDeliverymanController = new UpdateDeliverymanController()
+const updateEndAtController = new UpdateEndAtController()
 
 routes.get('/clients/deliveries', ensureAuthenticateClient, findAllDeliveriesController.handle)
 routes.post('/clients', createClientController.handle)
@@ -46,6 +48,11 @@ routes.patch(
   '/deliverymen/deliveries/update-deliveryman/:id',
   ensureAuthenticateDeliveryman,
   updateDeliverymanController.handle
+)
+routes.patch(
+  '/deliverymen/deliveries/update-end-at/:id',
+  ensureAuthenticateDeliveryman,
+  updateEndAtController.handle
 )
 
 export { routes }
