@@ -4,7 +4,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "ts-node-dev ./src/index.ts"
+    "dev": "ts-node-dev --exit-child --transpile-only --ignore-watch node_modules ./src/server.ts"
   },
   "dependencies": {
     "@prisma/client": "^3.7.0",

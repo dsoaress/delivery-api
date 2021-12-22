@@ -20,7 +20,7 @@ model Deliveryman {
 
 model Client {
   id         String     @id @default(cuid())
-  name       String     @unique
+  username   String     @unique
   password   String
   deliveries Delivery[]
   created_at DateTime   @default(now())
