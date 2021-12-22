@@ -10,6 +10,7 @@ import { FindAllAvailableController } from './modules/deliveries/findAllAvailabl
 import { ensureAuthenticateDeliveryman } from './middlewares/ensureAuthenticateDeliveryman'
 import { UpdateDeliverymanController } from './modules/deliveries/updateDeliveryman/UpdateDeliverymanController'
 import { FindAllDeliveriesController } from './modules/clients/findAllDeliveries/FindAllDeliveriesController'
+import { FindAllDeliveriesByDeliverymanController } from './modules/deliverymen/findAllDeliveriesByDeliveryman/FindAllDeliveriesByDeliverymanController'
 
 const routes = Router()
 const createClientController = new CreateClientController()
@@ -20,21 +21,27 @@ const createDeliverymanController = new CreateDeliverymanController()
 const authenticateDeliverymanController = new AuthenticateDeliverymanController()
 
 const findAllAvailableController = new FindAllAvailableController()
+const findAllDeliveriesByDeliverymanController = new FindAllDeliveriesByDeliverymanController()
 const createDeliveryController = new CreateDeliveryController()
 const updateDeliverymanController = new UpdateDeliverymanController()
 
+routes.get('/clients/deliveries', ensureAuthenticateClient, findAllDeliveriesController.handle)
 routes.post('/clients', createClientController.handle)
 routes.post('/clients/authenticate', authenticateClientController.handle)
-routes.get('/clients/deliveries', ensureAuthenticateClient, findAllDeliveriesController.handle)
+routes.post('/clients/deliveries', ensureAuthenticateClient, createDeliveryController.handle)
 
 routes.get(
   '/deliverymen/deliveries/available',
   ensureAuthenticateDeliveryman,
   findAllAvailableController.handle
 )
+routes.get(
+  '/deliverymen/deliveries',
+  ensureAuthenticateDeliveryman,
+  findAllDeliveriesByDeliverymanController.handle
+)
 routes.post('/deliverymen', createDeliverymanController.handle)
 routes.post('/deliverymen/authenticate', authenticateDeliverymanController.handle)
-routes.post('/deliverymen/deliveries', ensureAuthenticateClient, createDeliveryController.handle)
 routes.patch(
   '/deliverymen/deliveries/update-deliveryman/:id',
   ensureAuthenticateDeliveryman,
